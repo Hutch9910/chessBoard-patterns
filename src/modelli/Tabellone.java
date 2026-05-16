@@ -3,8 +3,6 @@ package modelli;
 import utility.Point;
 import variEnum.Team;
 import variEnum.TipoPedina;
-
-import java.util.Arrays;
 import java.util.EnumSet;
 
 public class Tabellone {
@@ -15,26 +13,31 @@ public class Tabellone {
     private int numeroDiPedine;
     private Pedina[] pedine;
 
-    private int numeroDiTeams;
     private Pedina[][] occupazione;
     private EnumSet<Team>[][] attacchi;
-    //private Enum[][] statoTabellone; // null se la posizione non è sotto attacco
 
     private static Point ultimaPosizioneCambiata;
 
     // Costruttori
-    public Tabellone(int numeroDiTeams, int latoTabellone) {
+    public Tabellone(int latoTabellone) {
         setLatoTabellone(latoTabellone); // arrotonda al numero dispari maggiore più vicino
         this.centro = new Point(latoTabellone/2, latoTabellone/2);
 
         numeroDiPedine = 0;
         setPedine();
 
-        setNumeroDiTeams(numeroDiTeams); // numero minimo: 2
         setOccupazione();
         setAttacchi();
 
         setUltimaPosizioneCambiata(this.centro);
+    }
+
+    // Getters
+    public int getLatoTabellone() {
+        return latoTabellone;
+    }
+    public Pedina[][] getOccupazione() {
+        return occupazione;
     }
 
     // Setters
@@ -44,16 +47,8 @@ public class Tabellone {
         }
         this.latoTabellone = latoTabellone;
     }
-
     public void setPedine() {
         this.pedine = new Pedina[this.latoTabellone * this.latoTabellone];
-    }
-
-    public void setNumeroDiTeams(int numeroDiTeams) {
-        if (numeroDiTeams <= 1) {
-            numeroDiTeams = 2;
-        }
-        this.numeroDiTeams = numeroDiTeams;
     }
     public void setOccupazione() {
         this.occupazione = new Pedina[this.latoTabellone][this.latoTabellone];
@@ -66,60 +61,26 @@ public class Tabellone {
             }
         }
     }
-
     public static void setUltimaPosizioneCambiata(Point centro) {
         Tabellone.ultimaPosizioneCambiata = new Point(centro.getX(), centro.getY());
     }
 
-    //
-    public boolean aggiungiPedina(Team team, TipoPedina tipoPedina) {
+    // Metodo principale
+    public void aggiungiPedina(Team team, TipoPedina tipoPedina) {
 
         Point posizione = (numeroDiPedine == 0) ? centro : trovaPosizioneDisponibile(team);
 
         if (posizione == null) {
-            return false;
+            return;
         }
 
-        switch (tipoPedina) {
-            case CAVALLO :
-                pedine[numeroDiPedine] = new Cavallo(team, tipoPedina, posizione);
-                break;
-            default :
-                System.out.println("Tipo pedina non riconosciuta");
-                return false;
-        } // case da aggiungere se si aggiungono sottoclassi di Pedina
-
+        pedine[numeroDiPedine] = tipoPedina.creaPedina(team, posizione);
         aggiungiPosizioniAttaccate(pedine[numeroDiPedine]);
         occupazione[posizione.getY()][posizione.getX()] = pedine[numeroDiPedine];
-
-        // DEBUG
-        System.out.print(pedine[numeroDiPedine] + " ");
-        System.out.println(pedine[numeroDiPedine].team);
-
-        String lineSeparator = System.lineSeparator();
-        StringBuilder sb = new StringBuilder();
-        for (int i = attacchi.length - 1; i >= 0; i--) {
-            EnumSet<Team>[] row = attacchi[i];
-            sb.append(Arrays.toString(row))
-                    .append(lineSeparator);
-        }
-        System.out.println(sb);
-
-        lineSeparator = System.lineSeparator();
-        sb = new StringBuilder();
-        for (int i = occupazione.length - 1; i >= 0; i--) {
-            Pedina[] row = occupazione[i];
-            sb.append(Arrays.toString(row))
-                    .append(lineSeparator);
-        }
-        System.out.println(sb);
-        System.out.println("Ultima posizione cambiata: " +ultimaPosizioneCambiata);
-        // FINE DEBUG
-
         numeroDiPedine++;
-        return true;
     }
 
+    // Logica spirale
     public Point trovaPosizioneDisponibile(Team team) {
 
         int x = ultimaPosizioneCambiata.getX();
@@ -131,7 +92,7 @@ public class Tabellone {
         // loop che itera la spirale fino a quando non trova una posizione disponibile
         boolean posizioneTrovata = false;
         while (!posizioneTrovata) {
-            if (dX == r && dY == -r) { // nuovo anello
+            if (dX == r && dY == r) { // nuovo anello
                 r++;
                 x++;
                 dX = x - centro.getX();
@@ -144,25 +105,7 @@ public class Tabellone {
                     posizioneTrovata = true;
                 }
             }
-            else if (dX == r && dY < r) { // lato destro -> su
-                y++;
-                dY = y - centro.getY();
-                if (isPosizioneSicura(team, new Point(x, y))) {
-                    ultimaPosizioneCambiata.setX(x);
-                    ultimaPosizioneCambiata.setY(y);
-                    posizioneTrovata = true;
-                }
-            }
-            else if (dX > -r && dY == r) { // lato alto -> sinistra
-                x--;
-                dX = x - centro.getX();
-                if (isPosizioneSicura(team, new Point(x, y))) {
-                    ultimaPosizioneCambiata.setX(x);
-                    ultimaPosizioneCambiata.setY(y);
-                    posizioneTrovata = true;
-                }
-            }
-            else if (dX == -r && dY > -r) { // lato sinistro -> giù
+            else if (dX == r && dY > -r) { // lato destro -> su
                 y--;
                 dY = y - centro.getY();
                 if (isPosizioneSicura(team, new Point(x, y))) {
@@ -171,7 +114,25 @@ public class Tabellone {
                     posizioneTrovata = true;
                 }
             }
-            else if (dX < r && dY == -r) { // lato basso -> destra
+            else if (dX > -r && dY == -r) { // lato alto -> sinistra
+                x--;
+                dX = x - centro.getX();
+                if (isPosizioneSicura(team, new Point(x, y))) {
+                    ultimaPosizioneCambiata.setX(x);
+                    ultimaPosizioneCambiata.setY(y);
+                    posizioneTrovata = true;
+                }
+            }
+            else if (dX == -r && dY < r) { // lato sinistro -> giù
+                y++;
+                dY = y - centro.getY();
+                if (isPosizioneSicura(team, new Point(x, y))) {
+                    ultimaPosizioneCambiata.setX(x);
+                    ultimaPosizioneCambiata.setY(y);
+                    posizioneTrovata = true;
+                }
+            }
+            else if (dX < r && dY == r) { // lato basso -> destra
                 x++;
                 dX = x - centro.getX();
                 if (isPosizioneSicura(team, new Point(x, y))) {
@@ -192,9 +153,7 @@ public class Tabellone {
 
     public void aggiungiPosizioniAttaccate(Pedina pedina) {
 
-        Point[] posizioniAttaccate = switch (pedina.tipoPedina) {
-                                        case CAVALLO -> ((Cavallo)pedina).getListaAttacchi();
-                                    }; // case da aggiungere se si aggiungono sottoclassi di Pedina
+        Point[] posizioniAttaccate = pedina.getListaAttacchi();
 
         for (int i = 0; i < posizioniAttaccate.length; i++) {
             int x = posizioniAttaccate[i].getX();

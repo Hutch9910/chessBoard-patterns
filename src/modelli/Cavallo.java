@@ -6,7 +6,6 @@ import variEnum.TipoPedina;
 
 public class Cavallo extends Pedina{
 
-
     // Costruttori
     public Cavallo(Team team, TipoPedina tipoPedina, Point posizione) {
         super(team, posizione);
@@ -39,6 +38,7 @@ public class Cavallo extends Pedina{
         return new Point((posizione.getX() - 2), (posizione.getY() - 1));
     }
 
+    @Override
     public Point[] getListaAttacchi() {
         Point[] listaAttacchi = new Point[8];
 
