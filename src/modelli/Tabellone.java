@@ -16,10 +16,11 @@ public class Tabellone {
     private Pedina[][] occupazione;
     private EnumSet<Team>[][] attacchi;
 
-    private static Point ultimaPosizioneCambiata;
+    private int numeroDiTeams;
+    private Point[] ultimaPosizioneCambiata;
 
     // Costruttori
-    public Tabellone(int latoTabellone) {
+    public Tabellone(int latoTabellone, int numeroDiTeams) {
         setLatoTabellone(latoTabellone); // arrotonda al numero dispari maggiore più vicino
         this.centro = new Point(latoTabellone/2, latoTabellone/2);
 
@@ -29,7 +30,8 @@ public class Tabellone {
         setOccupazione();
         setAttacchi();
 
-        setUltimaPosizioneCambiata(this.centro);
+        setNumeroDiTeams(numeroDiTeams);
+        setUltimaPosizioneCambiata();
     }
 
     // Getters
@@ -38,6 +40,9 @@ public class Tabellone {
     }
     public Pedina[][] getOccupazione() {
         return occupazione;
+    }
+    public int getNumeroDiTeams() {
+        return numeroDiTeams;
     }
 
     // Setters
@@ -61,8 +66,17 @@ public class Tabellone {
             }
         }
     }
-    public static void setUltimaPosizioneCambiata(Point centro) {
-        Tabellone.ultimaPosizioneCambiata = new Point(centro.getX(), centro.getY());
+    public void setNumeroDiTeams (int numeroDiTeams) {
+        if (numeroDiTeams <= 1) {
+            numeroDiTeams = 2;
+        }
+        this.numeroDiTeams = numeroDiTeams;
+    }
+    public void setUltimaPosizioneCambiata() {
+        ultimaPosizioneCambiata = new Point[this.numeroDiTeams];
+        for (int i = 0; i < this.numeroDiTeams; i++) {
+            ultimaPosizioneCambiata[i] = new Point(this.centro.getX(), this.centro.getY());
+        }
     }
 
     // Metodo principale
@@ -83,8 +97,9 @@ public class Tabellone {
     // Logica spirale
     public Point trovaPosizioneDisponibile(Team team) {
 
-        int x = ultimaPosizioneCambiata.getX();
-        int y = ultimaPosizioneCambiata.getY();
+        int codice = team.getCode();
+        int x = ultimaPosizioneCambiata[codice].getX();
+        int y = ultimaPosizioneCambiata[codice].getY();
         int dX = x - centro.getX(); // coordinate X relative dal centro (distanza dal centro)
         int dY = y - centro.getY(); // coordinate Y relative dal centro (distanza dal centro)
         int r = Math.max(Math.abs(dX), Math.abs(dY)); // calcolo del raggio dell'anello attuale
@@ -99,45 +114,45 @@ public class Tabellone {
                 if (x >= occupazione[0].length) { // controllo se sono uscito dal tabellone
                     return null;
                 }
-                if (isPosizioneSicura(team, new Point(x, y))) {
-                    ultimaPosizioneCambiata.setX(x);
-                    ultimaPosizioneCambiata.setY(y);
+                if (isPosizioneSicura(team, x, y)) {
+                    ultimaPosizioneCambiata[codice].setX(x);
+                    ultimaPosizioneCambiata[codice].setY(y);
                     posizioneTrovata = true;
                 }
             }
             else if (dX == r && dY > -r) { // lato destro -> su
                 y--;
                 dY = y - centro.getY();
-                if (isPosizioneSicura(team, new Point(x, y))) {
-                    ultimaPosizioneCambiata.setX(x);
-                    ultimaPosizioneCambiata.setY(y);
+                if (isPosizioneSicura(team, x, y)) {
+                    ultimaPosizioneCambiata[codice].setX(x);
+                    ultimaPosizioneCambiata[codice].setY(y);
                     posizioneTrovata = true;
                 }
             }
             else if (dX > -r && dY == -r) { // lato alto -> sinistra
                 x--;
                 dX = x - centro.getX();
-                if (isPosizioneSicura(team, new Point(x, y))) {
-                    ultimaPosizioneCambiata.setX(x);
-                    ultimaPosizioneCambiata.setY(y);
+                if (isPosizioneSicura(team, x, y)) {
+                    ultimaPosizioneCambiata[codice].setX(x);
+                    ultimaPosizioneCambiata[codice].setY(y);
                     posizioneTrovata = true;
                 }
             }
             else if (dX == -r && dY < r) { // lato sinistro -> giù
                 y++;
                 dY = y - centro.getY();
-                if (isPosizioneSicura(team, new Point(x, y))) {
-                    ultimaPosizioneCambiata.setX(x);
-                    ultimaPosizioneCambiata.setY(y);
+                if (isPosizioneSicura(team, x, y)) {
+                    ultimaPosizioneCambiata[codice].setX(x);
+                    ultimaPosizioneCambiata[codice].setY(y);
                     posizioneTrovata = true;
                 }
             }
             else if (dX < r && dY == r) { // lato basso -> destra
                 x++;
                 dX = x - centro.getX();
-                if (isPosizioneSicura(team, new Point(x, y))) {
-                    ultimaPosizioneCambiata.setX(x);
-                    ultimaPosizioneCambiata.setY(y);
+                if (isPosizioneSicura(team, x, y)) {
+                    ultimaPosizioneCambiata[codice].setX(x);
+                    ultimaPosizioneCambiata[codice].setY(y);
                     posizioneTrovata = true;
                 }
             }
@@ -145,10 +160,11 @@ public class Tabellone {
         return new Point(x, y);
     }
 
-    public boolean isPosizioneSicura(Team team, Point posizione) {
-        return attacchi[posizione.getY()][posizione.getX()].isEmpty()
-                || (attacchi[posizione.getY()][posizione.getX()].contains(team)
-                    && attacchi[posizione.getY()][posizione.getX()].size() == 1);
+    public boolean isPosizioneSicura(Team team, int x, int y) {
+        boolean attacchiSicura = attacchi[y][x].isEmpty()
+                || (attacchi[y][x].contains(team) && attacchi[y][x].size() == 1);
+        boolean occupazioneSicura = occupazione[y][x] == null;
+        return attacchiSicura && occupazioneSicura;
     }
 
     public void aggiungiPosizioniAttaccate(Pedina pedina) {

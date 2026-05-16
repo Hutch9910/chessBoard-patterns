@@ -12,11 +12,15 @@ public class Simulazione {
 
         Scanner in = new Scanner(System.in);
 
+        System.out.println("Numero di teams: ");
+        int numeroDiTeams = in.nextInt();
+        in.nextLine();
+
         System.out.println("Lato tabellone");
         int latoTabellone = in.nextInt();
         in.nextLine();
 
-        Tabellone tabellone = new Tabellone(latoTabellone);
+        Tabellone tabellone = new Tabellone(latoTabellone, numeroDiTeams);
 
         cicloSimulazione(tabellone);
 
@@ -27,12 +31,18 @@ public class Simulazione {
 
         // aggiunta di latoTabellone*latoTabellone Cavalli di 2 team diversi
         for (int i = 0; i < tabellone.getLatoTabellone() * tabellone.getLatoTabellone(); i++) {
-            if (i%2 == 0) {
-                tabellone.aggiungiPedina(Team.BLU, TipoPedina.CAVALLO);
-            }
-            else {
-                tabellone.aggiungiPedina(Team.ROSSO, TipoPedina.CAVALLO);
-            }
+
+            Team team = switch (i % tabellone.getNumeroDiTeams()) {
+                case 0 -> Team.BLACK;
+                case 1 -> Team.RED;
+                case 2 -> Team.BLUE;
+                case 3 -> Team.MAGENTA;
+                case 4 -> Team.GREEN;
+                case 5 -> Team.YELLOW;
+                default -> throw new IllegalStateException();
+            };
+
+            tabellone.aggiungiPedina(team, TipoPedina.CAVALLO);
         }
 
 

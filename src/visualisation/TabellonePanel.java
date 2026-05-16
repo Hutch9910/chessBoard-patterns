@@ -61,11 +61,12 @@ public class TabellonePanel extends JPanel {
 
     private Color getColor(Team team) {
         return switch (team) {
-            case ROSSO -> Color.RED;
-            case BLU -> Color.BLUE;
-            case VERDE -> Color.GREEN;
+            case BLACK -> Color.BLACK;
+            case RED -> Color.RED;
+            case BLUE -> Color.BLUE;
             case MAGENTA -> Color.MAGENTA;
-            case GIALLO -> Color.YELLOW;
+            case GREEN -> Color.GREEN;
+            case YELLOW -> Color.YELLOW;
         };
     }
 }
