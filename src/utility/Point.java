@@ -4,7 +4,7 @@ public class Point {
     private int x;
     private int y;
 
-    // Costruttori
+    // Constructors
     public Point(int x, int y) {
         this.x = x;
         this.y = y;
@@ -26,7 +26,6 @@ public class Point {
         this.y = y;
     }
 
-    //
     @Override
     public String toString() {
         return ("(" + x + "," + y + ")");
