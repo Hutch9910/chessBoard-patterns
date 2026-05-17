@@ -1,4 +1,4 @@
-package variEnum;
+package variousEnum;
 
 public enum Team {
     BLACK(0),

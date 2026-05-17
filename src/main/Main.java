@@ -1,11 +1,11 @@
 package main;
 
-import modelli.Simulazione;
+import models.Simulation;
 
 public class Main {
 
     static void main() {
 
-        new Simulazione().iniziaSimulazione();
+        new Simulation().startSimulation();
     }
 }
