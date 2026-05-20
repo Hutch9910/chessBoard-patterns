@@ -8,23 +8,23 @@ import variousEnum.TypeOfPiece;
 public class Wazir extends Piece {
 
     // Constructors
-    public Wazir(Team team, TypeOfPiece typeOfPiece, Point position) {
-        super(team, position);
+    public Wazir(Team team, TypeOfPiece typeOfPiece, Point boardPosition) {
+        super(team, boardPosition);
         this.typeOfPiece = typeOfPiece;
     }
 
     // Getters
     private Point attackPosition0() {
-        return new Point((position.getX() + 1), (position.getY()));
+        return new Point((boardPosition.getX() + 1), (boardPosition.getY()));
     }
     private Point attackPosition1() {
-        return new Point((position.getX() - 1), (position.getY()));
+        return new Point((boardPosition.getX() - 1), (boardPosition.getY()));
     }
     private Point attackPosition2() {
-        return new Point((position.getX()), (position.getY() + 1));
+        return new Point((boardPosition.getX()), (boardPosition.getY() + 1));
     }
     private Point attackPosition3() {
-        return new Point((position.getX()), (position.getY() - 1));
+        return new Point((boardPosition.getX()), (boardPosition.getY() - 1));
     }
 
     @Override

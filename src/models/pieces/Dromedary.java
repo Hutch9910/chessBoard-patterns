@@ -8,23 +8,23 @@ import variousEnum.TypeOfPiece;
 public class Dromedary extends Piece {
 
     // Constructors
-    public Dromedary(Team team, TypeOfPiece typeOfPiece, Point position) {
-        super(team, position);
+    public Dromedary(Team team, TypeOfPiece typeOfPiece, Point boardPosition) {
+        super(team, boardPosition);
         this.typeOfPiece = typeOfPiece;
     }
 
     // Getters
     private Point attackPosition0() {
-        return new Point((position.getX() + 3), (position.getY()));
+        return new Point((boardPosition.getX() + 3), (boardPosition.getY()));
     }
     private Point attackPosition1() {
-        return new Point((position.getX() - 3), (position.getY()));
+        return new Point((boardPosition.getX() - 3), (boardPosition.getY()));
     }
     private Point attackPosition2() {
-        return new Point((position.getX()), (position.getY() + 3));
+        return new Point((boardPosition.getX()), (boardPosition.getY() + 3));
     }
     private Point attackPosition3() {
-        return new Point((position.getX()), (position.getY() - 3));
+        return new Point((boardPosition.getX()), (boardPosition.getY() - 3));
     }
 
     @Override

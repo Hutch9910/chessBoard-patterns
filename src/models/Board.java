@@ -90,7 +90,7 @@ public class Board {
         }
 
         pieces[numberOfPieces] = typeOfPiece.buildPiece(team, position);
-        addAttachedPositions(pieces[numberOfPieces]);
+        addAttackedPositions(pieces[numberOfPieces]);
         occupancy[position.getY()][position.getX()] = pieces[numberOfPieces];
         numberOfPieces++;
     }
@@ -168,7 +168,7 @@ public class Board {
         return attacksSafe && occupancySafe;
     }
 
-    public void addAttachedPositions(Piece piece) {
+    public void addAttackedPositions(Piece piece) {
 
         Point[] attackedPositions = piece.getAttacksList();
 

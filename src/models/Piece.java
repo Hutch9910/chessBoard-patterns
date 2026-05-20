@@ -7,18 +7,18 @@ import variousEnum.TypeOfPiece;
 public abstract class Piece {
 
     protected Team team;
-    protected Point position;
+    protected Point boardPosition;
     protected TypeOfPiece typeOfPiece;
 
     // Constructors
     public Piece(Team team, Point position) {
         this.team = team;
-        this.position = position;
+        this.boardPosition = position;
     }
 
     // Getters
-    public Point getPosition() {
-        return position;
+    public Point getBoardPosition() {
+        return boardPosition;
     }
     public Team getTeam() {
         return team;
@@ -28,6 +28,6 @@ public abstract class Piece {
 
     @Override
     public String toString() {
-        return "" +position;
+        return "" +boardPosition;
     }
 }

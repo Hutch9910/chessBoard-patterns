@@ -3,6 +3,7 @@ package visualisation;
 import models.Board;
 import models.Piece;
 import variousEnum.Team;
+import input.MouseInput;
 import javax.swing.*;
 import java.awt.*;
 
@@ -12,23 +13,31 @@ public class BoardPanel extends JPanel {
 
     // Coordinates
     private int boardSide;
-    Piece[][] occupancy;
+    private Piece[][] occupancy;
 
     // Panel Sizes
-    private int tileSize;
+    private int tileSize = 1;
     private int screenSide;
+
+    // Mouse Zoom
+    private final MouseInput camera;
 
     // Constructors
     public BoardPanel(Board board) {
         setBoard(board);
         this.boardSide = board.getBoardSide();
         this.occupancy = board.getOccupancy();
-
-        tileSize = 1000 / boardSide; // final screen side = 1000
-        screenSide = tileSize * boardSide;
+        
+        screenSide = (int) (tileSize * boardSide * 0.5);
 
         this.setPreferredSize(new Dimension(this.screenSide, this.screenSide));
         this.setBackground(Color.white);
+
+        this.camera = new MouseInput(this);
+
+        addMouseWheelListener(camera);
+        addMouseListener(camera);
+        addMouseMotionListener(camera);
     }
 
     // Setters
@@ -39,18 +48,22 @@ public class BoardPanel extends JPanel {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-
         Graphics2D g2 = (Graphics2D) g;
+        
+        g2.translate(camera.getPanX(), camera.getPanY());
+        g2.scale(camera.getZoomFactor(), camera.getZoomFactor());
+        
+        for (int y = 0; y < occupancy.length; y++) {
+            for (int x = 0; x < occupancy[y].length; x++) {
 
-        for (Piece[] pieces : occupancy) {
-            for (Piece p : pieces) {
+                Piece p = occupancy[y][x];
 
                 if (p == null) {
                     continue;
                 }
 
-                int x = p.getPosition().getX() * tileSize;
-                int y = p.getPosition().getY() * tileSize;
+                x = x * tileSize;
+                y = y * tileSize;
 
                 g2.setColor(getColor(p.getTeam()));
 

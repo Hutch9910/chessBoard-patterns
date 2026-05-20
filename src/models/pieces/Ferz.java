@@ -8,23 +8,23 @@ import variousEnum.TypeOfPiece;
 public class Ferz extends Piece {
 
     // Constructors
-    public Ferz(Team team, TypeOfPiece typeOfPiece, Point position) {
-        super(team, position);
+    public Ferz(Team team, TypeOfPiece typeOfPiece, Point boardPosition) {
+        super(team, boardPosition);
         this.typeOfPiece = typeOfPiece;
     }
 
     // Getters
     private Point attackPosition0() {
-        return new Point((position.getX() + 1), (position.getY() + 1));
+        return new Point((boardPosition.getX() + 1), (boardPosition.getY() + 1));
     }
     private Point attackPosition1() {
-        return new Point((position.getX() + 1), (position.getY() - 1));
+        return new Point((boardPosition.getX() + 1), (boardPosition.getY() - 1));
     }
     private Point attackPosition2() {
-        return new Point((position.getX() - 1), (position.getY() + 1));
+        return new Point((boardPosition.getX() - 1), (boardPosition.getY() + 1));
     }
     private Point attackPosition3() {
-        return new Point((position.getX() - 1), (position.getY() - 1));
+        return new Point((boardPosition.getX() - 1), (boardPosition.getY() - 1));
     }
 
     @Override

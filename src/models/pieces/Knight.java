@@ -8,35 +8,35 @@ import variousEnum.TypeOfPiece;
 public class Knight extends Piece {
 
     // Constructors
-    public Knight(Team team, TypeOfPiece typeOfPiece, Point position) {
-        super(team, position);
+    public Knight(Team team, TypeOfPiece typeOfPiece, Point boardPosition) {
+        super(team, boardPosition);
         this.typeOfPiece = typeOfPiece;
     }
 
     // Getters
     private Point attackPosition0() {
-        return new Point((position.getX() + 1), (position.getY() + 2));
+        return new Point((boardPosition.getX() + 1), (boardPosition.getY() + 2));
     }
     private Point attackPosition1() {
-        return new Point((position.getX() + 1), (position.getY() - 2));
+        return new Point((boardPosition.getX() + 1), (boardPosition.getY() - 2));
     }
     private Point attackPosition2() {
-        return new Point((position.getX() - 1), (position.getY() + 2));
+        return new Point((boardPosition.getX() - 1), (boardPosition.getY() + 2));
     }
     private Point attackPosition3() {
-        return new Point((position.getX() - 1), (position.getY() - 2));
+        return new Point((boardPosition.getX() - 1), (boardPosition.getY() - 2));
     }
     private Point attackPosition4() {
-        return new Point((position.getX() + 2), (position.getY() + 1));
+        return new Point((boardPosition.getX() + 2), (boardPosition.getY() + 1));
     }
     private Point attackPosition5() {
-        return new Point((position.getX() + 2), (position.getY() - 1));
+        return new Point((boardPosition.getX() + 2), (boardPosition.getY() - 1));
     }
     private Point attackPosition6() {
-        return new Point((position.getX() - 2), (position.getY() + 1));
+        return new Point((boardPosition.getX() - 2), (boardPosition.getY() + 1));
     }
     private Point attackPosition7() {
-        return new Point((position.getX() - 2), (position.getY() - 1));
+        return new Point((boardPosition.getX() - 2), (boardPosition.getY() - 1));
     }
 
     @Override
