@@ -5,11 +5,11 @@ import java.awt.event.*;
 
 import visualisation.BoardPanel;
 
-public class MouseInput extends MouseAdapter implements MouseWheelListener{
+public class MouseInput extends MouseAdapter {
 
     private final BoardPanel panel;
 
-    private double zoomFactor = 1.0;
+    private double zoomFactor;
 
     private double panX = 0;
     private double panY = 0;
@@ -20,6 +20,7 @@ public class MouseInput extends MouseAdapter implements MouseWheelListener{
     // Constructors
     public MouseInput(BoardPanel panel) {
         this.panel = panel;
+        zoomFactor = (double) panel.getScreenSide() / panel.getBoardSide() * panel.getTileSize(); // fit the image in the screen
     }
 
     // Getters
@@ -58,7 +59,7 @@ public class MouseInput extends MouseAdapter implements MouseWheelListener{
     public void mouseWheelMoved(MouseWheelEvent e) {
 
         double oldZoom = zoomFactor;
-        double zoomMultiplier = 1.1;
+        double zoomMultiplier = 1.05;
 
         double mouseX = e.getX();
         double mouseY = e.getY();
@@ -79,6 +80,4 @@ public class MouseInput extends MouseAdapter implements MouseWheelListener{
 
         panel.repaint();
     }
-
-    
 }

@@ -6,10 +6,11 @@ import variousEnum.Team;
 import input.MouseInput;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.image.BufferedImage;
 
 public class BoardPanel extends JPanel {
 
-    private Board board;
+    private BufferedImage boardImage;
 
     // Coordinates
     private int boardSide;
@@ -17,42 +18,59 @@ public class BoardPanel extends JPanel {
 
     // Panel Sizes
     private int tileSize = 1;
-    private int screenSide;
+    private int screenSide = 1000;
 
     // Mouse Zoom
-    private final MouseInput camera;
+    private final MouseInput mouseInput;
 
     // Constructors
     public BoardPanel(Board board) {
-        setBoard(board);
-        this.boardSide = board.getBoardSide();
-        this.occupancy = board.getOccupancy();
-        
-        screenSide = (int) (tileSize * boardSide * 0.5);
+        boardSide = board.getBoardSide();
+        occupancy = board.getOccupancy();
 
-        this.setPreferredSize(new Dimension(this.screenSide, this.screenSide));
-        this.setBackground(Color.white);
+        setPreferredSize(new Dimension(screenSide, screenSide));
+        setBackground(Color.white);
 
-        this.camera = new MouseInput(this);
+        buildImage();
 
-        addMouseWheelListener(camera);
-        addMouseListener(camera);
-        addMouseMotionListener(camera);
+        mouseInput = new MouseInput(this);
+        addMouseWheelListener(mouseInput);
+        addMouseListener(mouseInput);
+        addMouseMotionListener(mouseInput);
     }
 
-    // Setters
-    public void setBoard(Board board) {
-        this.board = board;
+    public int getBoardSide() {
+        return boardSide;
+    }
+    public int getTileSize() {
+        return tileSize;
+    }
+    public int getScreenSide() {
+        return screenSide;
     }
 
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
+
         Graphics2D g2 = (Graphics2D) g;
-        
-        g2.translate(camera.getPanX(), camera.getPanY());
-        g2.scale(camera.getZoomFactor(), camera.getZoomFactor());
-        
+
+        g2.translate(mouseInput.getPanX(), mouseInput.getPanY());
+        g2.scale(mouseInput.getZoomFactor(), mouseInput.getZoomFactor());
+
+        if (boardImage != null) {
+            g2.drawImage(boardImage, 0, 0, null);
+        }
+    }
+
+    public void buildImage() {
+        int width = occupancy[0].length * tileSize;
+        int height = occupancy.length * tileSize;
+
+        boardImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+
+        Graphics2D g2 = boardImage.createGraphics();
+
         for (int y = 0; y < occupancy.length; y++) {
             for (int x = 0; x < occupancy[y].length; x++) {
 
@@ -62,14 +80,15 @@ public class BoardPanel extends JPanel {
                     continue;
                 }
 
-                x = x * tileSize;
-                y = y * tileSize;
-
                 g2.setColor(getColor(p.getTeam()));
-
-                g2.fillRect(x, y, tileSize, tileSize);
+                g2.fillRect(
+                    x * tileSize,
+                    y * tileSize,
+                    tileSize, tileSize);
             }
         }
+
+        g2.dispose();
     }
 
     private Color getColor(Team team) {
