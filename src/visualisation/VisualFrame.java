@@ -1,17 +1,37 @@
 package visualisation;
 
 import models.Board;
+
 import javax.swing.JFrame;
 
 public class VisualFrame extends JFrame {
 
-    // Constructors
-    public VisualFrame(Board board) {
-        JFrame frame = new JFrame();
+    private JFrame frame;
+    private static int screenSide = 1000;
 
+    // Constructors
+    public VisualFrame() {
+        frame = new JFrame();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setResizable(false);
+    }
 
+    // Getters
+    public static int getScreenSide() {
+        return screenSide;
+    }
+
+    // Start panel
+    public void createStartPanel() {
+        frame.add(new StartPanel());
+        frame.pack();
+
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
+    }
+
+    // Board visualisation
+    public void createBoardPanel(Board board) {
         frame.add(new BoardPanel(board));
         frame.pack();
 

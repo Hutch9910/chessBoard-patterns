@@ -4,6 +4,7 @@ package input;
 import java.awt.event.*;
 
 import visualisation.BoardPanel;
+import visualisation.VisualFrame;
 
 public class MouseInput extends MouseAdapter {
 
@@ -20,7 +21,7 @@ public class MouseInput extends MouseAdapter {
     // Constructors
     public MouseInput(BoardPanel panel) {
         this.panel = panel;
-        zoomFactor = (double) panel.getScreenSide() / panel.getBoardSide() * panel.getTileSize(); // fit the image in the screen
+        zoomFactor = (double) VisualFrame.getScreenSide() / panel.getBoardSide() * panel.getTileSize(); // fit the image in the screen
     }
 
     // Getters

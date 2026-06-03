@@ -16,9 +16,8 @@ public class BoardPanel extends JPanel {
     private int boardSide;
     private Piece[][] occupancy;
 
-    // Panel Sizes
-    private int tileSize = 1;
-    private int screenSide = 1000;
+    // Tile Size
+    private int tileSize = 1;    
 
     // Mouse Zoom
     private final MouseInput mouseInput;
@@ -27,9 +26,9 @@ public class BoardPanel extends JPanel {
     public BoardPanel(Board board) {
         boardSide = board.getBoardSide();
         occupancy = board.getOccupancy();
-
-        setPreferredSize(new Dimension(screenSide, screenSide));
+        setPreferredSize(new Dimension(VisualFrame.getScreenSide(), VisualFrame.getScreenSide()));
         setBackground(Color.white);
+
 
         buildImage();
 
@@ -44,9 +43,6 @@ public class BoardPanel extends JPanel {
     }
     public int getTileSize() {
         return tileSize;
-    }
-    public int getScreenSide() {
-        return screenSide;
     }
 
     @Override

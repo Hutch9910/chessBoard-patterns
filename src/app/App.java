@@ -1,11 +1,9 @@
-package main;
+package app;
 
 import models.Simulation;
 
-public class Main {
-
+public class App {
     static void main() {
-
         new Simulation().startSimulation();
     }
 }

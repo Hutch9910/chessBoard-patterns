@@ -12,7 +12,23 @@ public class Simulation {
 
         Scanner in = new Scanner(System.in);
 
-        System.out.println("Number of teams: ");
+
+        System.out.println(
+            "\nType of pieces:" +
+            "\nAntelope" +
+            "\nDabbaba" +
+            "\nDromedary" +
+            "\nElephant" +
+            "\nFerz" +
+            "\nKnight" +
+            "\nWazir" +
+            "\nZebra"
+        );
+
+
+        System.out.print(
+            "\nChoose the number of teams (MAX " +Team.values().length+ "): "
+        );
         int numberOfTeams = in.nextInt();
         in.nextLine();
 
@@ -22,9 +38,11 @@ public class Simulation {
 
         Board board = new Board(boardSide, numberOfTeams);
 
+        System.out.print("\nBuilding the board...");
         simulationCycle(board);
 
-        new VisualFrame(board);
+        System.out.print("\nStarting the visualisation...");
+        new VisualFrame().createBoardPanel(board);
     }
 
     private void simulationCycle(Board board) {
