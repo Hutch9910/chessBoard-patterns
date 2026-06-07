@@ -74,8 +74,8 @@ public class Board {
         this.numberOfTeams = numberOfTeams;
     }
     public void setLastChangedPosition() {
-        lastChangedPosition = new Point[this.numberOfTeams];
-        for (int i = 0; i < this.numberOfTeams; i++) {
+        lastChangedPosition = new Point[Team.values().length];
+        for (int i = 0; i < Team.values().length; i++) {
             lastChangedPosition[i] = new Point(this.centre.getX(), this.centre.getY());
         }
     }

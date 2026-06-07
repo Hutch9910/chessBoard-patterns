@@ -1,5 +1,7 @@
 package variousEnum;
 
+import java.awt.Color;
+
 public enum Team {
     BLACK(0),
     RED(1),
@@ -16,5 +18,16 @@ public enum Team {
 
     public int getCode() {
         return this.code;
+    }
+
+    public Color getColor() {
+        return switch (this) {
+            case BLACK -> Color.BLACK;
+            case RED -> Color.RED;
+            case BLUE -> Color.BLUE;
+            case MAGENTA -> Color.MAGENTA;
+            case GREEN -> Color.GREEN;
+            case YELLOW -> Color.YELLOW;
+        };
     }
 }

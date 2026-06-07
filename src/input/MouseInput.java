@@ -3,6 +3,8 @@ package input;
 
 import java.awt.event.*;
 
+import javax.swing.JPanel;
+
 import visualisation.BoardPanel;
 import visualisation.VisualFrame;
 
@@ -60,7 +62,7 @@ public class MouseInput extends MouseAdapter {
     public void mouseWheelMoved(MouseWheelEvent e) {
 
         double oldZoom = zoomFactor;
-        double zoomMultiplier = 1.05;
+        double zoomMultiplier = 1.07;
 
         double mouseX = e.getX();
         double mouseY = e.getY();
@@ -72,11 +74,9 @@ public class MouseInput extends MouseAdapter {
             zoomFactor /= zoomMultiplier;
         }
 
-        zoomFactor = Math.max(0.2, Math.min(5.0, zoomFactor));
-
+        zoomFactor = Math.max(0.05, Math.min(100.0, zoomFactor)); // setting max(100.0) and min(0.05) zoom
 
         panX = mouseX - (mouseX - panX) * (zoomFactor / oldZoom);
-
         panY = mouseY - (mouseY - panY) * (zoomFactor / oldZoom);
 
         panel.repaint();

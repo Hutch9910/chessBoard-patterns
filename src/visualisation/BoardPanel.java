@@ -2,7 +2,6 @@ package visualisation;
 
 import models.Board;
 import models.Piece;
-import variousEnum.Team;
 import input.MouseInput;
 import javax.swing.*;
 import java.awt.*;
@@ -76,7 +75,7 @@ public class BoardPanel extends JPanel {
                     continue;
                 }
 
-                g2.setColor(getColor(p.getTeam()));
+                g2.setColor(p.getTeam().getColor());
                 g2.fillRect(
                     x * tileSize,
                     y * tileSize,
@@ -85,16 +84,5 @@ public class BoardPanel extends JPanel {
         }
 
         g2.dispose();
-    }
-
-    private Color getColor(Team team) {
-        return switch (team) {
-            case BLACK -> Color.BLACK;
-            case RED -> Color.RED;
-            case BLUE -> Color.BLUE;
-            case MAGENTA -> Color.MAGENTA;
-            case GREEN -> Color.GREEN;
-            case YELLOW -> Color.YELLOW;
-        };
     }
 }

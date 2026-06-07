@@ -12,6 +12,7 @@ public class VisualFrame extends JFrame {
     // Constructors
     public VisualFrame() {
         frame = new JFrame();
+        frame.setTitle("ChessBoard Patterns");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setResizable(false);
     }
@@ -32,10 +33,9 @@ public class VisualFrame extends JFrame {
 
     // Board visualisation
     public void createBoardPanel(Board board) {
-        frame.add(new BoardPanel(board));
+        frame.setContentPane(new BoardPanel(board));
         frame.pack();
 
-        frame.setLocationRelativeTo(null);
         frame.setVisible(true);
     }
 }

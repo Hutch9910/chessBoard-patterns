@@ -12,6 +12,11 @@ public class Simulation {
 
         Scanner in = new Scanner(System.in);
 
+        VisualFrame visualFrame = new VisualFrame();
+
+        visualFrame.createStartPanel();
+        
+
 
         System.out.println(
             "\nType of pieces:" +
@@ -42,7 +47,7 @@ public class Simulation {
         simulationCycle(board);
 
         System.out.print("\nStarting the visualisation...");
-        new VisualFrame().createBoardPanel(board);
+        visualFrame.createBoardPanel(board);
     }
 
     private void simulationCycle(Board board) {
@@ -52,7 +57,7 @@ public class Simulation {
 
             Team team = switch (i % board.getNumberOfTeams()) {
                 case 0 -> Team.BLACK;
-                case 1 -> Team.RED;
+                case 1 -> Team.YELLOW;
                 case 2 -> Team.BLUE;
                 case 3 -> Team.MAGENTA;
                 case 4 -> Team.GREEN;
@@ -60,7 +65,15 @@ public class Simulation {
                 default -> throw new IllegalStateException();
             };
 
-            board.addPiece(team, TypeOfPiece.KNIGHT);
+            TypeOfPiece typeOfPiece;
+
+            if (i%2 == 0) {
+                typeOfPiece = TypeOfPiece.ELEPHANT;
+            }
+            else {
+                typeOfPiece = TypeOfPiece.DROMEDARY;
+            }
+            board.addPiece(team, typeOfPiece);
         }
     }
 }
