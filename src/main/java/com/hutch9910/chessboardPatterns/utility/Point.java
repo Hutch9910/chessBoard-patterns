@@ -1,4 +1,4 @@
-package utility;
+package com.hutch9910.chessboardPatterns.utility;
 
 public class Point {
     private int x;

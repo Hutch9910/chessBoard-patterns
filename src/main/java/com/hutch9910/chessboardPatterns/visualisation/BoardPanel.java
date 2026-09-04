@@ -1,9 +1,8 @@
-package visualisation;
+package com.hutch9910.chessboardPatterns.visualisation;
 
-import models.Board;
-import models.Piece;
-import variousEnum.Team;
-import input.MouseInput;
+import com.hutch9910.chessboardPatterns.models.Board;
+import com.hutch9910.chessboardPatterns.models.Piece;
+import com.hutch9910.chessboardPatterns.input.MouseInput;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -16,9 +15,8 @@ public class BoardPanel extends JPanel {
     private int boardSide;
     private Piece[][] occupancy;
 
-    // Panel Sizes
-    private int tileSize = 1;
-    private int screenSide = 1000;
+    // Tile Size
+    private int tileSize = 1;    
 
     // Mouse Zoom
     private final MouseInput mouseInput;
@@ -27,9 +25,9 @@ public class BoardPanel extends JPanel {
     public BoardPanel(Board board) {
         boardSide = board.getBoardSide();
         occupancy = board.getOccupancy();
-
-        setPreferredSize(new Dimension(screenSide, screenSide));
+        setPreferredSize(new Dimension(VisualFrame.getScreenSide(), VisualFrame.getScreenSide()));
         setBackground(Color.white);
+
 
         buildImage();
 
@@ -44,9 +42,6 @@ public class BoardPanel extends JPanel {
     }
     public int getTileSize() {
         return tileSize;
-    }
-    public int getScreenSide() {
-        return screenSide;
     }
 
     @Override
@@ -80,7 +75,7 @@ public class BoardPanel extends JPanel {
                     continue;
                 }
 
-                g2.setColor(getColor(p.getTeam()));
+                g2.setColor(p.getTeam().getColor());
                 g2.fillRect(
                     x * tileSize,
                     y * tileSize,
@@ -89,16 +84,5 @@ public class BoardPanel extends JPanel {
         }
 
         g2.dispose();
-    }
-
-    private Color getColor(Team team) {
-        return switch (team) {
-            case BLACK -> Color.BLACK;
-            case RED -> Color.RED;
-            case BLUE -> Color.BLUE;
-            case MAGENTA -> Color.MAGENTA;
-            case GREEN -> Color.GREEN;
-            case YELLOW -> Color.YELLOW;
-        };
     }
 }

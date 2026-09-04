@@ -1,10 +1,10 @@
-package models;
-
-import utility.Point;
-import variousEnum.Team;
-import variousEnum.TypeOfPiece;
+package com.hutch9910.chessboardPatterns.models;
 
 import java.util.EnumSet;
+
+import com.hutch9910.chessboardPatterns.utility.Point;
+import com.hutch9910.chessboardPatterns.variousEnum.Team;
+import com.hutch9910.chessboardPatterns.variousEnum.TypeOfPiece;
 
 public class Board {
 
@@ -74,8 +74,8 @@ public class Board {
         this.numberOfTeams = numberOfTeams;
     }
     public void setLastChangedPosition() {
-        lastChangedPosition = new Point[this.numberOfTeams];
-        for (int i = 0; i < this.numberOfTeams; i++) {
+        lastChangedPosition = new Point[Team.values().length];
+        for (int i = 0; i < Team.values().length; i++) {
             lastChangedPosition[i] = new Point(this.centre.getX(), this.centre.getY());
         }
     }

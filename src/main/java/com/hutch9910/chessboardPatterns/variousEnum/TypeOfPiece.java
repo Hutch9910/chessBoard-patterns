@@ -1,8 +1,15 @@
-package variousEnum;
+package com.hutch9910.chessboardPatterns.variousEnum;
 
-import models.*;
-import models.pieces.*;
-import utility.Point;
+import com.hutch9910.chessboardPatterns.models.Piece;
+import com.hutch9910.chessboardPatterns.models.pieces.Antelope;
+import com.hutch9910.chessboardPatterns.models.pieces.Dabbaba;
+import com.hutch9910.chessboardPatterns.models.pieces.Dromedary;
+import com.hutch9910.chessboardPatterns.models.pieces.Elephant;
+import com.hutch9910.chessboardPatterns.models.pieces.Ferz;
+import com.hutch9910.chessboardPatterns.models.pieces.Knight;
+import com.hutch9910.chessboardPatterns.models.pieces.Wazir;
+import com.hutch9910.chessboardPatterns.models.pieces.Zebra;
+import com.hutch9910.chessboardPatterns.utility.Point;
 
 public enum TypeOfPiece {
     KNIGHT {

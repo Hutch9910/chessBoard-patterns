@@ -1,9 +1,9 @@
-package models.pieces;
+package com.hutch9910.chessboardPatterns.models.pieces;
 
-import models.Piece;
-import utility.Point;
-import variousEnum.Team;
-import variousEnum.TypeOfPiece;
+import com.hutch9910.chessboardPatterns.models.Piece;
+import com.hutch9910.chessboardPatterns.utility.Point;
+import com.hutch9910.chessboardPatterns.variousEnum.Team;
+import com.hutch9910.chessboardPatterns.variousEnum.TypeOfPiece;
 
 public class Wazir extends Piece {
 
