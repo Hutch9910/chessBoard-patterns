@@ -4,8 +4,7 @@ import models.Simulation;
 
 public class Main {
 
-    static void main() {
-
+    public static void main(String[] args) {
         new Simulation().startSimulation();
     }
 }

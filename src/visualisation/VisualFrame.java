@@ -7,15 +7,16 @@ public class VisualFrame extends JFrame {
 
     // Constructors
     public VisualFrame(Board board) {
-        JFrame frame = new JFrame();
+        super();
 
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setResizable(false);
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setResizable(true);
 
-        frame.add(new BoardPanel(board));
-        frame.pack();
+        this.add(new BoardPanel(board));
+        this.pack();
 
-        frame.setLocationRelativeTo(null);
-        frame.setVisible(true);
+        this.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        this.setLocationRelativeTo(null);
+        this.setVisible(true);
     }
 }
