@@ -17,7 +17,7 @@ This project was inspired by the mathematical and visual patterns created by che
 ## Features
 
 - **Multi-team Support**: Support for different teams with different colors (Black, Red, Blue, Magenta, Green, Yellow)
-- **8 Chess Piece Types**: Each with unique movement patterns and attack positions
+- **8 Chess Piece Types**: Each with unique attack patterns and attack positions
 - **Automatic Board Generation**: Uses a spiral algorithm to automatically place pieces on the board:
   - Starts from the center
   - Spirals outward in rings
@@ -95,23 +95,92 @@ The board uses a spiral algorithm to place pieces:
 - The board can be displayed in the browser canvas or opened in the desktop Swing `BoardPanel`.
 - The desktop visualisation uses the Swing panel with the submitted board size; very large dense boards require more memory.
 
-## Getting Started
+## Requirements
 
-Run the Spring Boot application with Maven:
+- JDK 21 or newer
+- Git
+- A graphical desktop environment for the optional Swing desktop visualisation
+
+## Dependencies
+
+The Java dependencies are managed by Maven through `pom.xml`:
+
+- Spring Boot `4.1.1`
+- `spring-boot-starter-webmvc` for the web application and MVC controller
+- `spring-boot-starter-thymeleaf` for server-rendered HTML templates
+- `spring-boot-starter-actuator` for application monitoring endpoints
+- Spring Boot Thymeleaf and Web MVC test starters for test support
+
+The frontend uses plain HTML, CSS, and JavaScript. Fonts are loaded from Google Fonts when the application has network access; the application does not require a frontend package manager.
+
+## Clone and Run
+
+### 1. Clone the repository
+
+```bash
+git clone https://github.com/Hutch9910/chessBoard-patterns.git
+cd chessBoard-patterns
+```
+
+### 2. Check Java
+
+```bash
+java -version
+```
+
+The project is configured for Java 21 in `pom.xml`, if you have an outdated version please install the newer version.
+
+### 3. Build and test
+
+On Windows PowerShell:
+
+```powershell
+.\mvnw.cmd clean verify
+```
+
+On macOS or Linux:
+
+```bash
+./mvnw clean verify
+```
+
+This downloads Maven and project dependencies, compiles the application, and runs the tests.
+
+### 4. Start the application
+
+On Windows PowerShell:
+
+```powershell
+.\mvnw.cmd spring-boot:run
+```
+
+On macOS or Linux:
 
 ```bash
 ./mvnw spring-boot:run
 ```
 
-On Windows, use `mvnw.cmd spring-boot:run`. Then open [http://localhost:8080](http://localhost:8080).
+When startup completes, open [http://localhost:8080](http://localhost:8080) in a browser. Keep the terminal open while using the application. Stop the server with `Ctrl+C`.
 
-The web interface has three views:
+### 5. Use the application
 
-1. Read the project introduction on the start page.
-2. Open the visualiser, choose a board size and repeating piece/color sequence, then generate the board.
-3. Open the attack-range library to inspect each piece's movement offsets.
+1. Open the introduction page at `/`.
+2. Open the visualiser at `/visualisation`.
+3. Choose a board size and repeating piece/team sequence, then select **Generate board**.
+4. Use mouse-wheel scrolling to zoom and drag the board to pan.
+5. Select **Open desktop visualisation** to launch the Swing window when running on a graphical desktop.
+6. Open `/attack-range` to inspect each piece's attack offsets.
 
-The board can be zoomed with the mouse wheel and panned by dragging. Even board sizes are rounded up to the next odd size. The accepted board-side range is 3 to 5001; large patterns use sparse server data and canvas rendering rather than one HTML element per square.
+Even board sizes are rounded up to the next odd size. The accepted board-side range is 3 to 5001; large patterns use sparse server data and canvas rendering rather than one HTML element per square.
+
+## Recent Changes
+
+- Added the browser-based visualiser with configurable board size and repeating piece/team sequences.
+- Added the attack-range library for Wazir, Ferz, Dabbaba, Elephant, Knight, Dromedary, Zebra, and Antelope patterns.
+- Added the optional Swing desktop visualisation launch from the web interface.
+- Added responsive board controls for zooming, panning, and resetting the view.
+- Refined the visual design with the Chessboard Patterns landing page, responsive layouts, action arrows, and selected-piece navigation styling.
+- Kept spacing around selected attack-range items visually separate from the white panel background.
 
 ## Chess Pieces
 

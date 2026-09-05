@@ -4,19 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Visualiser | Chessboard Patterns</title>
+    <link rel="icon" type="image/svg+xml" th:href="@{/favicon.svg}">
     <link rel="stylesheet" th:href="@{/css/site.css}">
 </head>
 <body class="workspace-page visualization-page">
 <header class="topbar">
     <a class="brand" href="/">Chessboard <em>Patterns</em></a>
-    <nav class="topnav"><a href="/attack-range">Attack ranges</a><span class="topbar-note">GEOMETRY / MOVEMENT / PATTERN</span></nav>
+    <nav class="topnav"><a href="/attack-range">Attack ranges</a></nav>
 </header>
 <main class="workspace-shell">
     <aside class="control-panel">
         <div class="panel-heading">
             <p class="eyebrow">Configuration</p>
             <h1>Build a pattern</h1>
-            <p>Choose the board and the repeating sequence of pieces that will fill it.</p>
+            <p>Choose the board size and the repeating sequence of pieces that will fill it.</p>
         </div>
         <form id="visualisation-form" action="/visualisation" method="post" th:object="${setup}">
             <div class="field-grid">
@@ -63,7 +64,7 @@
         <div class="visual-heading">
             <div>
                 <p class="eyebrow">Live canvas</p>
-                <h2><span th:text="${board.side}"></span> x <span th:text="${board.side}"></span> field</h2>
+                <h2><span th:text="${board.side}"></span> x <span th:text="${board.side}"></span> board</h2>
             </div>
             <div class="visual-actions">
                 <span class="interaction-note">Drag to pan / scroll to zoom</span>

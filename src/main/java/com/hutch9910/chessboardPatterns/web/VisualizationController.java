@@ -77,7 +77,6 @@ public class VisualizationController {
     private String renderWorkspace(Model model, VisualizationSetup setup, BoardView board) {
         model.addAttribute("setup", setup);
         model.addAttribute("board", board);
-        model.addAttribute("teamCount", boardGenerationService.countTeams(setup));
         model.addAttribute("pieceTypes", TypeOfPiece.values());
         model.addAttribute("teams", Team.values());
         return "visualisation";
