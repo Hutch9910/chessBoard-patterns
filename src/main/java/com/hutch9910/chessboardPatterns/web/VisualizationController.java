@@ -25,7 +25,10 @@ public class VisualizationController {
     }
 
     @GetMapping("/")
-    public String index() {
+    public String index(Model model) {
+        VisualizationSetup landingSetup = VisualizationSetup.defaults();
+        landingSetup.setBoardSide(5);
+        model.addAttribute("landingBoard", new BoardView(boardGenerationService.generate(landingSetup)));
         return "index";
     }
 
