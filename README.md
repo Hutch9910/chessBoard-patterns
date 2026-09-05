@@ -17,14 +17,14 @@ This project was inspired by the mathematical and visual patterns created by che
 ## Features
 
 - **Multi-team Support**: Support for different teams with different colors (Black, Red, Blue, Magenta, Green, Yellow)
-- **8 Chess Piece Types**: Each with unique attack patterns and attack positions
+- **8 Chess Piece Types**: Each with unique attack patterns
 - **Automatic Board Generation**: Uses a spiral algorithm to automatically place pieces on the board:
   - Starts from the center
   - Spirals outward in rings
   - Checks for safe positions (avoiding conflicts between same-team pieces)
 - **Interactive Visualization**: GUI to visualize the board with color-coded teams
 - **Desktop Visualization**: Open the robust Swing `BoardPanel` using the same configuration as the web visualiser
-- **Scalable Web Visualization**: Canvas rendering supports board sizes up to 5001 while keeping the browser responsive
+- **Scalable Web Visualization**: Canvas rendering supports board sizes up to 10001 while keeping the browser responsive
 - **Configurable Sequence**: Add or remove piece/color entries; the number of teams is derived from the colors selected
 - **Attack Range Library**: Inspect the relative attack offsets of every piece type
 
@@ -171,7 +171,7 @@ When startup completes, open [http://localhost:8080](http://localhost:8080) in a
 5. Select **Open desktop visualisation** to launch the Swing window when running on a graphical desktop.
 6. Open `/attack-range` to inspect each piece's attack offsets.
 
-Even board sizes are rounded up to the next odd size. The accepted board-side range is 3 to 5001; large patterns use sparse server data and canvas rendering rather than one HTML element per square.
+Even board sizes are rounded up to the next odd number. Board sizes greater than 5000 may take longer to generate.
 
 ## Recent Changes
 
@@ -186,14 +186,16 @@ Even board sizes are rounded up to the next odd size. The accepted board-side ra
 
 ### Piece Attack Patterns
 
-- **Wazir**: (0,1) - Attacks one square orthogonally
-- **Ferz**: (1,1) - Attacks one square diagonally
-- **Dabbaba**: (2,0) - Attacks two squares orthogonally
-- **Elephant**: (2,2) - Attacks two squares diagonally
-- **Knight**: (1,2) or (2,1) - Classic L-shaped move
-- **Dromedary**: (1,3) - Leaps to (3,1) offset
-- **Zebra**: (2,3) - Leaps to (3,2) offset
-- **Antelope**: (3,4) - Leaps to (4,3) offset
+Attack offsets are written as `(dx, dy)` relative to the piece's position. Each `+/-` value represents both positive and negative directions.
+
+- **Wazir**: `(0, +/-1)` or `(+/-1, 0)` - One square orthogonally
+- **Ferz**: `(+/-1, +/-1)` - One square diagonally
+- **Dabbaba**: `(0, +/-2)` or `(+/-2, 0)` - Two squares orthogonally
+- **Elephant**: `(+/-2, +/-2)` - Two squares diagonally
+- **Knight**: `(+/-1, +/-2)` or `(+/-2, +/-1)` - Classic L-shaped move
+- **Dromedary**: `(0, +/-3)` or `(+/-3, 0)` - Three squares orthogonally
+- **Zebra**: `(+/-2, +/-3)` or `(+/-3, +/-2)` - Long L-shaped leap
+- **Antelope**: `(+/-3, +/-4)` or `(+/-4, +/-3)` - Extended L-shaped leap
 
 ## Algorithm Details
 
@@ -226,10 +228,8 @@ The GUI displays:
 
 ## Future Enhancements
 
-- Interactive piece placement/selection
 - Pattern analysis and statistics
 - Export board state to file
-- Animation of the spiral placement process
 - Additional chess pieces
 
 ## License

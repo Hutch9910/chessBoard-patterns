@@ -3,6 +3,7 @@ package com.hutch9910.chessboardPatterns.visualisation;
 import com.hutch9910.chessboardPatterns.models.Board;
 
 import javax.swing.JFrame;
+import javax.swing.SwingUtilities;
 
 public class VisualFrame extends JFrame {
 
@@ -20,15 +21,17 @@ public class VisualFrame extends JFrame {
 
     // Board visualisation
     public void createBoardPanel(Board board) {
-        this.setContentPane(new BoardPanel(board));
+        BoardPanel boardPanel = new BoardPanel(board);
+        this.setContentPane(boardPanel);
 
         this.setTitle("ChessBoard Patterns");
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         this.setResizable(true);
         this.pack();
 
-        this.setExtendedState(JFrame.MAXIMIZED_BOTH);
         this.setLocationRelativeTo(null);
+        this.setExtendedState(JFrame.MAXIMIZED_BOTH);
         this.setVisible(true);
+        SwingUtilities.invokeLater(boardPanel::fitBoardToView);
     }
 }

@@ -62,6 +62,6 @@ public class BoardGenerationService {
     }
 
     private int normalizeBoardSide(int boardSide) {
-        return Math.max(3, Math.min(5001, boardSide));
+        return Math.max(3, Math.min(10001, boardSide));
     }
 }

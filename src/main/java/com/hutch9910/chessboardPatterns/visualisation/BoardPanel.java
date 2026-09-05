@@ -43,6 +43,17 @@ public class BoardPanel extends JPanel {
     public int getTileSize() {
         return tileSize;
     }
+    public int getBoardWidth() {
+        return occupancy[0].length * tileSize;
+    }
+    public int getBoardHeight() {
+        return occupancy.length * tileSize;
+    }
+
+    public void fitBoardToView() {
+        mouseInput.fitToPanel();
+        repaint();
+    }
 
     @Override
     protected void paintComponent(Graphics g) {

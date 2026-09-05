@@ -37,6 +37,14 @@ public class MouseInput extends MouseAdapter {
         return panY;
     }
 
+    public void fitToPanel() {
+        double boardWidth = panel.getBoardWidth();
+        double boardHeight = panel.getBoardHeight();
+        zoomFactor = Math.min(panel.getWidth() / boardWidth, panel.getHeight() / boardHeight);
+        panX = (panel.getWidth() - boardWidth * zoomFactor) / 2.0;
+        panY = (panel.getHeight() - boardHeight * zoomFactor) / 2.0;
+    }
+
     @Override
     public void mousePressed(MouseEvent e) {
         lastMouseX = e.getX();
