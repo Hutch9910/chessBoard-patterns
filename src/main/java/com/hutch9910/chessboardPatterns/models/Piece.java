@@ -23,6 +23,9 @@ public abstract class Piece {
     public Team getTeam() {
         return team;
     }
+    public TypeOfPiece getTypeOfPiece() {
+        return typeOfPiece;
+    }
 
     public abstract Point[] getAttacksList();
 

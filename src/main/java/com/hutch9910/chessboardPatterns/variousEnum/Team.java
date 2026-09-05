@@ -30,4 +30,19 @@ public enum Team {
             case YELLOW -> Color.YELLOW;
         };
     }
+
+    public String getDisplayName() {
+        return name().charAt(0) + name().substring(1).toLowerCase();
+    }
+
+    public String getCssColor() {
+        return switch (this) {
+            case BLACK -> "#172026";
+            case RED -> "#d94f4f";
+            case BLUE -> "#3b82c4";
+            case MAGENTA -> "#c04bb3";
+            case GREEN -> "#3f9d68";
+            case YELLOW -> "#d6a72b";
+        };
+    }
 }

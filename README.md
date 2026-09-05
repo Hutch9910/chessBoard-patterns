@@ -11,18 +11,21 @@ This project simulates the placement of chess pieces on a multi-team chessboard 
 ## Inspiration
 
 This project was inspired by the mathematical and visual patterns created by chess pieces, as demonstrated in the following YouTube videos:
-- [Video 1](https://www.youtube.com/watch?v=UiX4CFIiegM&t=666s)
+- [Video 1](https://www.youtube.com/watch?v=UiX4CFIiegM&t)
 - [Video 2](https://www.youtube.com/watch?v=VgmDuBCayPw)
 
 ## Features
 
-- **Multi-team Support**: Support for up to 6 different teams with different colors (Black, Yellow, Blue, Magenta, Green)
+- **Multi-team Support**: Support for different teams with different colors (Black, Red, Blue, Magenta, Green, Yellow)
 - **8 Chess Piece Types**: Each with unique movement patterns and attack positions
 - **Automatic Board Generation**: Uses a spiral algorithm to automatically place pieces on the board:
   - Starts from the center
   - Spirals outward in rings
   - Checks for safe positions (avoiding conflicts between same-team pieces)
 - **Interactive Visualization**: GUI to visualize the board with color-coded teams
+- **Scalable Web Visualization**: Canvas rendering supports board sizes up to 5001 while keeping the browser responsive
+- **Configurable Sequence**: Add or remove piece/color entries; the number of teams is derived from the colors selected
+- **Attack Range Library**: Inspect the relative attack offsets of every piece type
 
 ## Project Structure
 
@@ -60,7 +63,7 @@ src/
 
 ### 1. Initialization
 - User specifies the number of teams (2-6)
-- User specifies the board size (automatically rounds to odd numbers)
+- User specifies the board size (automatically rounds up to odd numbers)
 
 ### 2. Board Generation
 The board uses a spiral algorithm to place pieces:
@@ -75,30 +78,30 @@ The board uses a spiral algorithm to place pieces:
 
 ## Getting Started
 
-1. Compile the Java files:
+Run the Spring Boot application with Maven:
+
 ```bash
-javac -d bin src/app/*.java src/models/*.java src/models/pieces/*.java src/input/*.java src/visualisation/*.java src/utility/*.java src/variousEnum/*.java
+./mvnw spring-boot:run
 ```
 
-2. Run the application:
-```bash
-java -cp bin app.App
-```
+On Windows, use `mvnw.cmd spring-boot:run`. Then open [http://localhost:8080](http://localhost:8080).
 
-3. Follow the prompts:
-   - Enter the number of teams (2-6)
-   - Enter the desired board size
+The web interface has three views:
 
-4. The visualization window will open showing the generated board pattern
+1. Read the project introduction on the start page.
+2. Open the visualiser, choose a board size and repeating piece/color sequence, then generate the board.
+3. Open the attack-range library to inspect each piece's movement offsets.
+
+The board can be zoomed with the mouse wheel and panned by dragging. Even board sizes are rounded up to the next odd size. The accepted board-side range is 3 to 5001; large patterns use sparse server data and canvas rendering rather than one HTML element per square.
 
 ## Chess Pieces
 
 ### Piece Attack Patterns
 
-- **Wazir**: (0,1) - Moves one square orthogonally
-- **Ferz**: (1,1) - Moves one square diagonally
-- **Dabbaba**: (2,0) - Jumps two squares orthogonally
-- **Elephant**: (2,2) - Jumps two squares diagonally
+- **Wazir**: (0,1) - Attacks one square orthogonally
+- **Ferz**: (1,1) - Attacks one square diagonally
+- **Dabbaba**: (2,0) - Attacks two squares orthogonally
+- **Elephant**: (2,2) - Attacks two squares diagonally
 - **Knight**: (1,2) or (2,1) - Classic L-shaped move
 - **Dromedary**: (1,3) - Leaps to (3,1) offset
 - **Zebra**: (2,3) - Leaps to (3,2) offset
@@ -129,8 +132,9 @@ The GUI displays:
 
 - The board is always an odd-sized square (automatically rounds up even inputs)
 - The center of the board serves as the starting point
-- The visualization uses Swing for the GUI
-- Mouse input handling is available for future interactive features
+- The visualization uses Spring Boot and Thymeleaf for the web interface
+- Board zoom and panning are handled in the browser
+- The original Swing visualisation classes remain available as legacy desktop UI code
 
 ## Future Enhancements
 

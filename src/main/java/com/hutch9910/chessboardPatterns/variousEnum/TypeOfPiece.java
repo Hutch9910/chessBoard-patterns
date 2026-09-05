@@ -62,4 +62,21 @@ public enum TypeOfPiece {
     };
 
     public abstract Piece buildPiece(Team team, Point boardPosition);
+
+    public String getDisplayName() {
+        return name().charAt(0) + name().substring(1).toLowerCase();
+    }
+
+    public String getSymbol() {
+        return switch (this) {
+            case ANTELOPE -> "A";
+            case DABBABA -> "Da";
+            case DROMEDARY -> "Dr";
+            case ELEPHANT -> "E";
+            case FERZ -> "F";
+            case KNIGHT -> "K";
+            case WAZIR -> "W";
+            case ZEBRA -> "Z";
+        };
+    }
 }

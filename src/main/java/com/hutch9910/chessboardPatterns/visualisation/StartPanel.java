@@ -1,4 +1,4 @@
-﻿package com.hutch9910.chessboardPatterns.visualisation;
+package com.hutch9910.chessboardPatterns.visualisation;
 
 import java.awt.*;
 import java.awt.datatransfer.*;

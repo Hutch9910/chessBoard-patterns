@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Attack Ranges | Chessboard Patterns</title>
+    <link rel="stylesheet" th:href="@{/css/site.css}">
+</head>
+<body class="workspace-page attack-page">
+<header class="topbar">
+    <a class="brand" href="/">Chessboard <em>Patterns</em></a>
+    <nav class="topnav"><a href="/visualisation">Visualiser</a><span class="topbar-note">PIECE MOVEMENT / ATTACK RANGE</span></nav>
+</header>
+<main class="attack-shell">
+    <aside class="attack-list">
+        <p class="eyebrow">Movement library</p>
+        <h1>Attack ranges</h1>
+        <p class="panel-description">Select a piece to see the squares it can reach from the centre.</p>
+        <nav class="piece-nav" aria-label="Piece types">
+            <a th:each="pieceType : ${pieceTypes}" th:href="@{'/attack-range/' + ${pieceType}}" th:classappend="${pieceType == selectedPiece} ? ' selected' : ''">
+                <span th:text="${pieceType.symbol}"></span><strong th:text="${pieceType.displayName}"></strong><i>-&gt;</i>
+            </a>
+        </nav>
+        <a class="back-link" href="/visualisation">&lt;- Back to visualiser</a>
+    </aside>
+    <section class="attack-preview">
+        <div class="visual-heading"><div><p class="eyebrow">Selected movement</p><h2 th:text="${attack.piece.displayName}"></h2></div><span class="movement-count" th:text="${attack.attacks.size()} + ' reachable squares'"></span></div>
+        <div class="attack-board" th:style="'--attack-size: ' + (${attack.extent} * 2 + 1) + ';'">
+            <div class="attack-cell" th:each="row : ${#numbers.sequence(attack.extent, -attack.extent, -1)}">
+                <span th:each="column : ${#numbers.sequence(-attack.extent, attack.extent)}" th:classappend="${attack.isAttack(column, row)} ? ' reachable' : (${column == 0 and row == 0} ? ' origin' : (${(column + row) % 2 == 1} ? ' dark' : ''))"></span>
+            </div>
+        </div>
+        <p class="attack-note">The centre marks the piece. Every colored square is one legal offset for the selected movement pattern.</p>
+    </section>
+</main>
+</body>
+</html>

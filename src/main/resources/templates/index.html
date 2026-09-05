@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chessboard Patterns</title>
+    <link rel="stylesheet" th:href="@{/css/site.css}">
+</head>
+<body class="landing-page">
+<main class="landing-shell">
+    <section class="landing-copy">
+        <p class="eyebrow">A mathematical visualization lab</p>
+        <h1>Chessboard<br><em>Patterns</em></h1>
+        <p class="intro-text">
+            Explore the geometric patterns created by chess pieces that do not belong to the same attacking team.
+            The board fills from its center in a spiral, placing pieces wherever the rules allow. Choose a repeating
+            sequence, compare the movement of eight mathematical chess pieces, and watch the pattern emerge.
+        </p>
+        <div class="video-links">
+            <a href="https://www.youtube.com/watch?v=UiX4CFIiegM&t" target="_blank" rel="noreferrer">Inspiration 01 <span>-&gt;</span></a>
+            <a href="https://www.youtube.com/watch?v=VgmDuBCayPw" target="_blank" rel="noreferrer">Inspiration 02 <span>-&gt;</span></a>
+        </div>
+        <div class="principles" aria-label="Project principles">
+            <div><strong>01</strong><span>Eight movement patterns</span></div>
+            <div><strong>02</strong><span>Up to six teams</span></div>
+            <div><strong>03</strong><span>One evolving board</span></div>
+        </div>
+        <section class="project-details" aria-label="About the project">
+            <article class="project-detail">
+                <strong>01 / Spiral engine</strong>
+                <h2>From the centre outward</h2>
+                <p>The generator follows a square spiral and places each piece at the first available safe position.</p>
+            </article>
+            <article class="project-detail">
+                <strong>02 / Movement library</strong>
+                <h2>Eight ways to move</h2>
+                <p>Compare classic and mathematical pieces including the knight, wazir, ferz, elephant, zebra, and antelope.</p>
+            </article>
+            <article class="project-detail">
+                <strong>03 / Two views</strong>
+                <h2>Web and desktop canvases</h2>
+                <p>Use the responsive canvas for large patterns, inspect attack ranges, or open the faster Swing visualisation.</p>
+            </article>
+        </section>
+        <div class="landing-actions"><a class="button button-primary" href="/visualisation">Open the visualiser <span aria-hidden="true">-&gt;</span></a><a class="text-link" href="/attack-range">Study attack ranges <span>-&gt;</span></a></div>
+    </section>
+</main>
+</body>
+</html>
