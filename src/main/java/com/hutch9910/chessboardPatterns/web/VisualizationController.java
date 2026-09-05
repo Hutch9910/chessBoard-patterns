@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import java.awt.GraphicsEnvironment;
 import javax.swing.SwingUtilities;
 
+import com.hutch9910.chessboardPatterns.models.Board;
 import com.hutch9910.chessboardPatterns.visualisation.VisualFrame;
 
 import com.hutch9910.chessboardPatterns.variousEnum.Team;
@@ -38,12 +39,19 @@ public class VisualizationController {
         return renderWorkspace(model, setup);
     }
 
-    @GetMapping("/visualisation/desktop")
-    public String desktopVisualisation() {
-        if (!GraphicsEnvironment.isHeadless()) {
-            SwingUtilities.invokeLater(() -> new VisualFrame().createStartPanel());
+    @PostMapping("/visualisation/desktop")
+    public String desktopVisualisation(@ModelAttribute VisualizationSetup setup, Model model) {
+        if (GraphicsEnvironment.isHeadless()) {
+            return renderWorkspace(model, setup, new BoardView(boardGenerationService.emptyBoard(setup)));
         }
-        return "redirect:/visualisation";
+
+        try {
+            Board board = boardGenerationService.generateDesktop(setup);
+            SwingUtilities.invokeLater(() -> new VisualFrame().createBoardPanel(board));
+        } catch (IllegalArgumentException exception) {
+            return renderWorkspace(model, setup, new BoardView(boardGenerationService.emptyBoard(setup)));
+        }
+        return renderWorkspace(model, setup, new BoardView(boardGenerationService.emptyBoard(setup)));
     }
 
     @GetMapping("/attack-range")
@@ -63,8 +71,12 @@ public class VisualizationController {
     }
 
     private String renderWorkspace(Model model, VisualizationSetup setup) {
+        return renderWorkspace(model, setup, new BoardView(boardGenerationService.generate(setup)));
+    }
+
+    private String renderWorkspace(Model model, VisualizationSetup setup, BoardView board) {
         model.addAttribute("setup", setup);
-        model.addAttribute("board", new BoardView(boardGenerationService.generate(setup)));
+        model.addAttribute("board", board);
         model.addAttribute("teamCount", boardGenerationService.countTeams(setup));
         model.addAttribute("pieceTypes", TypeOfPiece.values());
         model.addAttribute("teams", Team.values());

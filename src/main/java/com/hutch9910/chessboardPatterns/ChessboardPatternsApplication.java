@@ -7,8 +7,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class ChessboardPatternsApplication {
 
 	public static void main(String[] args) {
+		if (System.getProperty("java.awt.headless") == null) {
+			System.setProperty("java.awt.headless", "false");
+		}
 		SpringApplication.run(ChessboardPatternsApplication.class, args);
-		// new Simulation().startSimulation();
 	}
 
 }

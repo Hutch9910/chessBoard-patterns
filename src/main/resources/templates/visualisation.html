@@ -18,7 +18,7 @@
             <h1>Build a pattern</h1>
             <p>Choose the board and the repeating sequence of pieces that will fill it.</p>
         </div>
-        <form action="/visualisation" method="post" th:object="${setup}">
+        <form id="visualisation-form" action="/visualisation" method="post" th:object="${setup}">
             <div class="field-grid">
                 <label class="field">
                     <span>Board side</span>
@@ -43,7 +43,19 @@
                 </div>
                 <button id="add-piece" class="add-piece" type="button">+ Add piece to sequence</button>
             </fieldset>
+            <div class="desktop-launch">
+                <button class="button button-secondary full-width" type="submit" formaction="/visualisation/desktop" formmethod="post" data-desktop-action>Open desktop visualisation <span aria-hidden="true">-&gt;</span></button>
+                <span>Launch the faster Swing visualisation in a separate window.</span>
+            </div>
             <button class="button button-primary full-width" type="submit">Generate board <span aria-hidden="true">-&gt;</span></button>
+            <div id="large-board-warning" class="large-board-warning" hidden>
+                <strong>Large board detected</strong>
+                <p>The web board generation with a size above 500 may take a while. Generating the board with Swing is faster and more responsive.</p>
+                <div class="large-board-actions">
+                    <button class="button button-secondary" type="submit" formaction="/visualisation/desktop" formmethod="post" data-desktop-action>Open desktop visualisation <span aria-hidden="true">-&gt;</span></button>
+                    <button class="button button-primary" type="submit" data-allow-large-board>Generate web board anyway <span aria-hidden="true">-&gt;</span></button>
+                </div>
+            </div>
         </form>
         <div class="panel-links"><a class="back-link" href="/">&lt;- About the project</a><a class="back-link" href="/attack-range">Explore attack ranges -&gt;</a></div>
     </aside>
@@ -57,10 +69,6 @@
                 <span class="interaction-note">Drag to pan / scroll to zoom</span>
                 <button id="reset-view" class="icon-button" type="button" title="Reset board view" aria-label="Reset board view">&#8634;</button>
             </div>
-        </div>
-        <div class="desktop-launch">
-            <a class="button button-secondary" href="/visualisation/desktop" target="_blank" rel="noreferrer">Open desktop visualisation <span aria-hidden="true">-&gt;</span></a>
-            <span>Launch the faster Swing visualisation in a separate window.</span>
         </div>
         <div id="board-viewport" class="board-viewport">
             <div id="board-stage" class="board-stage">

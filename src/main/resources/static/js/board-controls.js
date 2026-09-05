@@ -3,6 +3,8 @@
     const stage = document.getElementById('board-stage');
     const resetButton = document.getElementById('reset-view');
     const canvas = document.getElementById('board-canvas');
+    const visualisationForm = document.getElementById('visualisation-form');
+    const largeBoardWarning = document.getElementById('large-board-warning');
 
     if (!viewport || !stage || !canvas) {
         return;
@@ -17,6 +19,37 @@
     let dragging = false;
     let pointerX = 0;
     let pointerY = 0;
+
+    function getInitialView(width, height) {
+        if (board.pieces.length === 0) {
+            return { scale: 1, offsetX: 0, offsetY: 0 };
+        }
+
+        const columns = board.pieces.map(piece => piece.column);
+        const rows = board.pieces.map(piece => piece.row);
+        const minColumn = Math.min(...columns);
+        const maxColumn = Math.max(...columns);
+        const minRow = Math.min(...rows);
+        const maxRow = Math.max(...rows);
+        const boardSize = Math.min(width, height) * 0.78;
+        const cellSize = boardSize / board.side;
+        const occupiedWidth = Math.max(1, maxColumn - minColumn + 1) * cellSize;
+        const occupiedHeight = Math.max(1, maxRow - minRow + 1) * cellSize;
+        const targetSize = Math.min(width, height) * 0.78;
+        const initialScale = Math.min(targetSize / occupiedWidth, targetSize / occupiedHeight);
+        const boardLeft = (width - boardSize) / 2;
+        const boardTop = (height - boardSize) / 2;
+        const centerX = width / 2;
+        const centerY = height / 2;
+        const occupiedCenterX = boardLeft + ((minColumn + maxColumn + 1) / 2) * cellSize;
+        const occupiedCenterY = boardTop + ((minRow + maxRow + 1) / 2) * cellSize;
+
+        return {
+            scale: Math.max(1, Math.min(100, initialScale)),
+            offsetX: (centerX - occupiedCenterX) * initialScale,
+            offsetY: (centerY - occupiedCenterY) * initialScale
+        };
+    }
 
     function drawBoard() {
         const bounds = viewport.getBoundingClientRect();
@@ -84,9 +117,11 @@
     }
 
     function reset() {
-        scale = 1;
-        offsetX = 0;
-        offsetY = 0;
+        const bounds = viewport.getBoundingClientRect();
+        const initialView = getInitialView(bounds.width, bounds.height);
+        scale = initialView.scale;
+        offsetX = initialView.offsetX;
+        offsetY = initialView.offsetY;
         renderTransform();
     }
 
@@ -136,9 +171,27 @@
     }, { passive: false });
 
     resetButton.addEventListener('click', reset);
-    window.addEventListener('resize', drawBoard);
+
+    if (visualisationForm && largeBoardWarning) {
+        visualisationForm.addEventListener('submit', function (event) {
+            const boardSide = Number.parseInt(visualisationForm.querySelector('[name="boardSide"]').value, 10);
+            const submitter = event.submitter;
+            const isDesktopAction = submitter && submitter.hasAttribute('data-desktop-action');
+            const isLargeBoardAllowed = submitter && submitter.hasAttribute('data-allow-large-board');
+
+            if (boardSide > 500 && !isDesktopAction && !isLargeBoardAllowed) {
+                event.preventDefault();
+                largeBoardWarning.hidden = false;
+                largeBoardWarning.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }
+        });
+    }
+
+    window.addEventListener('resize', function () {
+        reset();
+    });
     drawBoard();
-    renderTransform();
+    reset();
 
     const sequenceList = document.querySelector('.sequence-list');
     const addPieceButton = document.getElementById('add-piece');

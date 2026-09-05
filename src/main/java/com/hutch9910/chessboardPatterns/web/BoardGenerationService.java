@@ -2,6 +2,7 @@ package com.hutch9910.chessboardPatterns.web;
 
 import java.util.List;
 
+import com.hutch9910.chessboardPatterns.models.Board;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
@@ -13,21 +14,22 @@ public class BoardGenerationService {
     private static final long MAX_MATERIALIZED_PIECES = 250_000L;
 
     public SparseBoard generate(VisualizationSetup setup) {
-        int boardSide = Math.max(3, Math.min(5001, setup.getBoardSide()));
+        int boardSide = normalizeBoardSide(setup.getBoardSide());
         SparseBoard board = new SparseBoard(boardSide);
-        List<PieceChoice> sequence = setup.getSequence();
+        populate(setup, board.getSide(), MAX_MATERIALIZED_PIECES,
+                choice -> board.addPiece(choice.getTeam(), choice.getType()));
+        return board;
+    }
 
-        if (sequence == null || sequence.isEmpty()) {
-            return board;
-        }
+    public SparseBoard emptyBoard(VisualizationSetup setup) {
+        return new SparseBoard(normalizeBoardSide(setup.getBoardSide()));
+    }
 
-        long squareCount = Math.min((long) board.getSide() * board.getSide(), MAX_MATERIALIZED_PIECES);
-        for (long index = 0; index < squareCount; index++) {
-            PieceChoice choice = sequence.get((int) (index % sequence.size()));
-            if (choice != null && choice.getType() != null && choice.getTeam() != null) {
-                board.addPiece(choice.getTeam(), choice.getType());
-            }
-        }
+    public Board generateDesktop(VisualizationSetup setup) {
+        int boardSide = normalizeBoardSide(setup.getBoardSide());
+        Board board = new Board(boardSide, countTeams(setup));
+        populate(setup, board.getBoardSide(), (long) board.getBoardSide() * board.getBoardSide(),
+                choice -> board.addPiece(choice.getTeam(), choice.getType()));
         return board;
     }
 
@@ -41,5 +43,25 @@ public class BoardGenerationService {
             }
         }
         return Math.max(1, teams.size());
+    }
+
+    private void populate(VisualizationSetup setup, int boardSide, long maxPieces,
+            java.util.function.Consumer<PieceChoice> addPiece) {
+        List<PieceChoice> sequence = setup.getSequence();
+        if (sequence == null || sequence.isEmpty()) {
+            return;
+        }
+
+        long squareCount = Math.min((long) boardSide * boardSide, maxPieces);
+        for (long index = 0; index < squareCount; index++) {
+            PieceChoice choice = sequence.get((int) (index % sequence.size()));
+            if (choice != null && choice.getType() != null && choice.getTeam() != null) {
+                addPiece.accept(choice);
+            }
+        }
+    }
+
+    private int normalizeBoardSide(int boardSide) {
+        return Math.max(3, Math.min(5001, boardSide));
     }
 }

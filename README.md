@@ -23,6 +23,7 @@ This project was inspired by the mathematical and visual patterns created by che
   - Spirals outward in rings
   - Checks for safe positions (avoiding conflicts between same-team pieces)
 - **Interactive Visualization**: GUI to visualize the board with color-coded teams
+- **Desktop Visualization**: Open the robust Swing `BoardPanel` using the same configuration as the web visualiser
 - **Scalable Web Visualization**: Canvas rendering supports board sizes up to 5001 while keeping the browser responsive
 - **Configurable Sequence**: Add or remove piece/color entries; the number of teams is derived from the colors selected
 - **Attack Range Library**: Inspect the relative attack offsets of every piece type
@@ -31,39 +32,56 @@ This project was inspired by the mathematical and visual patterns created by che
 
 ```
 src/
-├── app/
-│   └── App.java                 # Main entry point
-├── models/
-│   ├── Board.java              # Board management and piece placement logic
-│   ├── Piece.java              # Abstract base class for all chess pieces
-│   ├── Simulation.java         # Simulation orchestration
-│   └── pieces/                 # Chess piece implementations
-│       ├── Antelope.java
-│       ├── Dabbaba.java
-│       ├── Dromedary.java
-│       ├── Elephant.java
-│       ├── Ferz.java
-│       ├── Knight.java
-│       ├── Wazir.java
-│       └── Zebra.java
-├── input/
-│   └── MouseInput.java         # Mouse event handling
-├── visualisation/
-│   ├── VisualFrame.java        # Main window frame
-│   ├── StartPanel.java         # Initial setup panel
-│   └── BoardPanel.java         # Board visualization panel
-├── utility/
-│   └── Point.java              # 2D coordinate representation
-└── variousEnum/
-    ├── Team.java               # Team enumeration
-    └── TypeOfPiece.java        # Piece type enumeration
+└── main/
+  ├── java/com/hutch9910/chessboardPatterns/
+  │   ├── ChessboardPatternsApplication.java  # Spring Boot entry point
+  │   ├── input/
+  │   │   └── MouseInput.java                 # Swing mouse pan/zoom handling
+  │   ├── models/
+  │   │   ├── Board.java                       # Dense board and placement logic
+  │   │   ├── Piece.java                       # Abstract piece model
+  │   │   └── pieces/                          # Chess piece implementations
+  │   │       ├── Antelope.java
+  │   │       ├── Dabbaba.java
+  │   │       ├── Dromedary.java
+  │   │       ├── Elephant.java
+  │   │       ├── Ferz.java
+  │   │       ├── Knight.java
+  │   │       ├── Wazir.java
+  │   │       └── Zebra.java
+  │   ├── utility/
+  │   │   └── Point.java                       # 2D coordinate representation
+  │   ├── variousEnum/
+  │   │   ├── Team.java                        # Team definitions and colors
+  │   │   └── TypeOfPiece.java                 # Piece definitions and symbols
+  │   ├── visualisation/
+  │   │   ├── BoardPanel.java                  # Swing board panel
+  │   │   └── VisualFrame.java                 # Swing window frame
+  │   └── web/
+  │       ├── AttackRangeView.java             # Attack-range page model
+  │       ├── BoardGenerationService.java      # Web and desktop board generation
+  │       ├── BoardView.java                   # Web board view model
+  │       ├── PieceChoice.java                 # Submitted piece/team choice
+  │       ├── SparseBoard.java                 # Memory-efficient web board
+  │       ├── VisualizationController.java     # Web routes and desktop launch
+  │       └── VisualizationSetup.java          # Submitted visualisation settings
+  └── resources/
+    ├── application.properties
+    ├── static/
+    │   ├── css/site.css
+    │   └── js/board-controls.js
+    └── templates/
+      ├── attack-range.html
+      ├── index.html
+      └── visualisation.html
 ```
 
 ## How It Works
 
 ### 1. Initialization
-- User specifies the number of teams (2-6)
-- User specifies the board size (automatically rounds up to odd numbers)
+- User specifies the board size and repeating piece/team sequence in the web interface
+- The number of teams is derived from the selected sequence
+- The board size is automatically rounded up to an odd number
 
 ### 2. Board Generation
 The board uses a spiral algorithm to place pieces:
@@ -74,7 +92,8 @@ The board uses a spiral algorithm to place pieces:
   - The position is either not under attack, or only attacked by the same team
 
 ### 3. Visualization
-- The board is displayed with color-coded pieces for each team
+- The board can be displayed in the browser canvas or opened in the desktop Swing `BoardPanel`.
+- The desktop visualisation uses the Swing panel with the submitted board size; very large dense boards require more memory.
 
 ## Getting Started
 
@@ -134,7 +153,7 @@ The GUI displays:
 - The center of the board serves as the starting point
 - The visualization uses Spring Boot and Thymeleaf for the web interface
 - Board zoom and panning are handled in the browser
-- The original Swing visualisation classes remain available as legacy desktop UI code
+- The desktop visualisation is launched from the web interface and runs on the machine hosting Spring Boot
 
 ## Future Enhancements
 

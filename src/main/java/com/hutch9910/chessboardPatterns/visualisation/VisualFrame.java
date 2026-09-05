@@ -6,15 +6,11 @@ import javax.swing.JFrame;
 
 public class VisualFrame extends JFrame {
 
-    private JFrame frame;
     private static int screenSide = 1000;
 
     // Constructors
     public VisualFrame() {
-        frame = new JFrame();
-        frame.setTitle("ChessBoard Patterns");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setResizable(false);
+        super();
     }
 
     // Getters
@@ -22,20 +18,17 @@ public class VisualFrame extends JFrame {
         return screenSide;
     }
 
-    // Start panel
-    public void createStartPanel() {
-        frame.add(new StartPanel());
-        frame.pack();
-
-        frame.setLocationRelativeTo(null);
-        frame.setVisible(true);
-    }
-
     // Board visualisation
     public void createBoardPanel(Board board) {
-        frame.setContentPane(new BoardPanel(board));
-        frame.pack();
+        this.setContentPane(new BoardPanel(board));
 
-        frame.setVisible(true);
+        this.setTitle("ChessBoard Patterns");
+        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        this.setResizable(true);
+        this.pack();
+
+        this.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        this.setLocationRelativeTo(null);
+        this.setVisible(true);
     }
 }
