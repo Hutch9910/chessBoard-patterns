@@ -1,5 +1,8 @@
 HELP.md
 target/
+*.msi
+*.exe
+/ChessboardPatterns/
 .mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/

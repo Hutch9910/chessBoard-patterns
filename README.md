@@ -61,14 +61,20 @@ src/
   │       ├── AttackRangeView.java             # Attack-range page model
   │       ├── BoardGenerationService.java      # Web and desktop board generation
   │       ├── BoardView.java                   # Web board view model
+  |       ├── BrowserLauncher.java             # Opens the localhost in the default web browser
   │       ├── PieceChoice.java                 # Submitted piece/team choice
+  │       ├── SystemTrayManager.java           # Create system tray icon
   │       ├── VisualizationController.java     # Web routes and desktop launch
   │       └── VisualizationSetup.java          # Submitted visualisation settings
   └── resources/
     ├── application.properties
     ├── static/
     │   ├── css/site.css
-    │   └── js/board-controls.js
+    │   ├── js/
+    |   |    ├── board-controls.js
+    |   |    └── placement-animation.js
+    │   ├── traycon.png
+    │   └── favcon.svg
     └── templates/
       ├── attack-range.html
       ├── index.html

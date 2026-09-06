@@ -1,9 +1,10 @@
 package com.hutch9910.chessboardPatterns.visualisation;
 
-import com.hutch9910.chessboardPatterns.models.Board;
-
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
+
+import com.hutch9910.chessboardPatterns.models.Board;
 
 public class VisualFrame extends JFrame {
 
@@ -25,6 +26,9 @@ public class VisualFrame extends JFrame {
         this.setContentPane(boardPanel);
 
         this.setTitle("ChessBoard Patterns");
+        ImageIcon icon = new ImageIcon(
+                getClass().getResource("/static/trayicon.png"));
+        this.setIconImage(icon.getImage());
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         this.setResizable(true);
         this.pack();
@@ -32,6 +36,9 @@ public class VisualFrame extends JFrame {
         this.setLocationRelativeTo(null);
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
         this.setVisible(true);
+        this.setState(JFrame.NORMAL);
+        this.setAlwaysOnTop(true);
+        this.setAlwaysOnTop(false);
         SwingUtilities.invokeLater(boardPanel::fitBoardToView);
     }
 }
