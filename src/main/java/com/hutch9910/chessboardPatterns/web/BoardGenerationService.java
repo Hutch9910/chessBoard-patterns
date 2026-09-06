@@ -13,21 +13,21 @@ public class BoardGenerationService {
 
     private static final long MAX_MATERIALIZED_PIECES = 250_000L;
 
-    public SparseBoard generate(VisualizationSetup setup) {
+    public Board generate(VisualizationSetup setup) {
         int boardSide = normalizeBoardSide(setup.getBoardSide());
-        SparseBoard board = new SparseBoard(boardSide);
-        populate(setup, board.getSide(), MAX_MATERIALIZED_PIECES,
+        Board board = new Board(boardSide);
+        populate(setup, board.getBoardSide(), MAX_MATERIALIZED_PIECES,
                 choice -> board.addPiece(choice.getTeam(), choice.getType()));
         return board;
     }
 
-    public SparseBoard emptyBoard(VisualizationSetup setup) {
-        return new SparseBoard(normalizeBoardSide(setup.getBoardSide()));
+    public Board emptyBoard(VisualizationSetup setup) {
+        return new Board(normalizeBoardSide(setup.getBoardSide()));
     }
 
     public Board generateDesktop(VisualizationSetup setup) {
         int boardSide = normalizeBoardSide(setup.getBoardSide());
-        Board board = new Board(boardSide, countTeams(setup));
+        Board board = new Board(boardSide);
         populate(setup, board.getBoardSide(), (long) board.getBoardSide() * board.getBoardSide(),
                 choice -> board.addPiece(choice.getTeam(), choice.getType()));
         return board;

@@ -62,7 +62,6 @@ src/
   │       ├── BoardGenerationService.java      # Web and desktop board generation
   │       ├── BoardView.java                   # Web board view model
   │       ├── PieceChoice.java                 # Submitted piece/team choice
-  │       ├── SparseBoard.java                 # Memory-efficient web board
   │       ├── VisualizationController.java     # Web routes and desktop launch
   │       └── VisualizationSetup.java          # Submitted visualisation settings
   └── resources/
@@ -206,7 +205,7 @@ The algorithm maintains the last found position for each team and spirals outwar
 1. Calculate the current ring radius based on the last position
 2. Move in a square spiral pattern: right → up → left → down
 3. For each position in the spiral:
-   - Check if it's safe (not occupied, not attacked by other teams)
+   - Check if it's safe (not occupied, not under attack by other teams)
    - If safe, place the piece there
    - If unsafe, continue to next position
 

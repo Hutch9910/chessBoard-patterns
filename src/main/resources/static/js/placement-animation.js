@@ -1,6 +1,6 @@
 (function () {
     const board = document.querySelector('.placement-board');
-        const toggle = document.querySelector('.placement-toggle');
+    const toggle = document.querySelector('.placement-toggle');
 
     if (!board) {
         return;
@@ -8,12 +8,12 @@
 
     const cells = Array.from(board.querySelectorAll('.placement-cell'));
     const placementData = window.landingPlacementData;
-    const teams = ['team-orange', 'team-green'];
+    const teams = ['team-blue', 'team-yellow'];
     const placementDelay = 420;
-    const settleDelay = 260;
-    const fadeDelay = 280;
+    const settleDelay = 700;
+    const fadeDelay = 100;
     const resetDelay = 1500;
-        let paused = false;
+    let paused = false;
 
     function clearCell(cell) {
         cell.className = 'placement-cell';
@@ -26,12 +26,16 @@
         marker.textContent = symbol || '♞';
         marker.setAttribute('aria-hidden', 'true');
         cell.appendChild(marker);
-           cell.classList.add('placement-preview', team);
+        cell.classList.add('placement-preview', team);
     }
 
     function settleCell(cell, team) {
         cell.className = `placement-cell occupied ${team}`;
         cell.replaceChildren();
+    }
+
+    function attackCell(cell, team) {
+        cell.classList.add(`${team}-attack`);
     }
 
     async function fadeKnight(cell, team) {
@@ -45,29 +49,29 @@
 
     function delay(duration) {
         return new Promise(function (resolve) {
-                let elapsed = 0;
-                let previous = performance.now();
+            let elapsed = 0;
+            let previous = performance.now();
 
-                function tick(current) {
-                    if (!paused) {
-                        elapsed += current - previous;
-                    }
-                    previous = current;
-                    if (elapsed >= duration) {
-                        resolve();
-                        return;
-                    }
-                    window.requestAnimationFrame(tick);
+            function tick(current) {
+                if (!paused) {
+                    elapsed += current - previous;
                 }
-
+                previous = current;
+                if (elapsed >= duration) {
+                    resolve();
+                    return;
+                }
                 window.requestAnimationFrame(tick);
+            }
+
+            window.requestAnimationFrame(tick);
         });
     }
 
-        function updateToggle() {
-            toggle.textContent = paused ? 'Resume animation' : 'Pause animation';
-            toggle.setAttribute('aria-pressed', String(paused));
-        }
+    function updateToggle() {
+        toggle.textContent = paused ? 'Resume animation' : 'Pause animation';
+        toggle.setAttribute('aria-pressed', String(paused));
+    }
 
     function cellForPlacement(piece) {
         return board.querySelector(`[data-row="${piece.row}"][data-column="${piece.column}"]`);
@@ -82,6 +86,16 @@
         });
     }
 
+    function showPieceAttacks(piece, team) {
+        piece.attacks.forEach(function (attack) {
+            const cell = cellForPlacement(attack);
+
+            if (cell) {
+                attackCell(cell, team);
+            }
+        });
+    }
+
     async function animate() {
         while (true) {
             for (let index = 0; index < placementData.pieces.length; index += 1) {
@@ -92,6 +106,7 @@
                 }
                 const team = teams[index % teams.length];
                 showKnight(cell, team, '♞');
+                showPieceAttacks(piece, team);
                 await delay(settleDelay);
                 await fadeKnight(cell, team);
                 await delay(placementDelay);
@@ -104,15 +119,15 @@
 
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
         showStaticBoard();
-            toggle.disabled = true;
-            toggle.textContent = 'Animation paused';
+        toggle.disabled = true;
+        toggle.textContent = 'Animation paused';
         return;
     }
 
-        toggle.addEventListener('click', function () {
-            paused = !paused;
-            updateToggle();
-        });
+    toggle.addEventListener('click', function () {
+        paused = !paused;
+        updateToggle();
+    });
 
     animate();
 }());

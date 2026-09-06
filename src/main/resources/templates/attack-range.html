@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,32 +8,49 @@
     <link rel="icon" type="image/svg+xml" th:href="@{/favicon.svg}">
     <link rel="stylesheet" th:href="@{/css/site.css}">
 </head>
+
 <body class="workspace-page attack-page">
-<header class="topbar">
-    <a class="brand" href="/">Chessboard <em>Patterns</em></a>
-    <nav class="topnav"><a href="/visualisation">Visualiser</a></nav>
-</header>
-<main class="attack-shell">
-    <aside class="attack-list">
-        <p class="eyebrow">Pieces library</p>
-        <h1>Attack ranges</h1>
-        <p class="panel-description">Select a piece to see the squares it can attack from the centre.</p>
-        <nav class="piece-nav" aria-label="Piece types">
-            <a th:each="pieceType : ${pieceTypes}" th:href="@{'/attack-range/' + ${pieceType}}" th:classappend="${pieceType == selectedPiece} ? ' selected' : ''">
-                <span th:text="${pieceType.symbol}"></span><strong th:text="${pieceType.displayName}"></strong><i>-&gt;</i>
-            </a>
-        </nav>
-        <a class="back-link" href="/visualisation">&lt;- Back to visualiser</a>
-    </aside>
-    <section class="attack-preview">
-        <div class="visual-heading"><div><p class="eyebrow">Selected piece</p><h2 th:text="${attack.piece.displayName}"></h2></div><span class="attack-count" th:text="${attack.attacks.size()} + ' reachable squares'"></span></div>
-        <div class="attack-board" th:style="'--attack-size: ' + (${attack.extent} * 2 + 1) + ';'">
-            <div class="attack-cell" th:each="row : ${#numbers.sequence(attack.extent, -attack.extent, -1)}">
-                <span th:each="column : ${#numbers.sequence(-attack.extent, attack.extent)}" th:classappend="${attack.isAttack(column, row)} ? ' reachable' : (${column == 0 and row == 0} ? ' origin' : (${(column + row) % 2 == 1} ? ' dark' : ''))"></span>
+    <header class="topbar">
+        <a class="brand" href="/">Chessboard <em>Patterns</em></a>
+        <nav class="topnav"><a href="/visualisation">Visualiser</a></nav>
+    </header>
+    <main class="attack-shell">
+        <aside class="attack-list">
+            <p class="eyebrow">Pieces library</p>
+            <h1>Attack ranges</h1>
+            <p class="panel-description">Select a piece to see the squares it can attack from the centre.</p>
+            <nav class="piece-nav" aria-label="Piece types">
+                <a th:each="pieceType : ${pieceTypes}" th:href="@{'/attack-range/' + ${pieceType}}"
+                    th:classappend="${pieceType == selectedPiece} ? ' selected' : ''">
+                    <span th:text="${pieceType.symbol}"></span><strong
+                        th:text="${pieceType.displayName}"></strong><i>-&gt;</i>
+                </a>
+            </nav>
+            <a class="back-link" href="/visualisation">&lt;- Back to visualiser</a>
+        </aside>
+        <section class="attack-preview">
+            <div class="visual-heading">
+                <div>
+                    <p class="eyebrow">Selected piece</p>
+                    <h2 th:text="${attack.piece.displayName}"></h2>
+                </div><span class="attack-count" th:text="${attack.attacks.size()} + ' squares under attack'"></span>
             </div>
-        </div>
-        <p class="attack-note">The centre marks the piece. Every colored square is one legal offset for the selected attack pattern.</p>
-    </section>
-</main>
+            <div class="attack-board" th:style="'--attack-size: ' + (${attack.extent} * 2 + 1) + ';'">
+
+                <th:block th:each="row : ${#numbers.sequence(attack.extent, -attack.extent, -1)}">
+
+                    <span th:each="column : ${#numbers.sequence(-attack.extent, attack.extent)}" th:classappend="${attack.isAttack(column, row)} ? ' attacked' :
+                           (${column == 0 and row == 0} ? ' origin' :
+                           (${(column + row) % 2 == 1} ? ' dark' : ''))">
+                    </span>
+
+                </th:block>
+
+            </div>
+            <p class="attack-note">The centre marks the piece. Every colored square is one legal offset for the selected
+                attack pattern.</p>
+        </section>
+    </main>
 </body>
+
 </html>
